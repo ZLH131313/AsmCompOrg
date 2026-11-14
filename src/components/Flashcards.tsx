@@ -65,7 +65,7 @@ export function Flashcards({
         </div>
         <button
           onClick={shuffle}
-          className="rounded-lg border border-[var(--line)] bg-white px-4 py-1.5 text-sm text-[var(--ink-soft)] transition-colors hover:border-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+          className="rounded-lg border border-[var(--line)] bg-[var(--card)] px-4 py-1.5 text-sm text-[var(--ink-soft)] transition-colors hover:border-[var(--ink)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
         >
           随机打乱
         </button>
@@ -86,15 +86,15 @@ export function Flashcards({
           aria-label={flipped ? '查看问题' : '查看答案'}
           className={`flip-card relative block h-64 w-full text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--accent)] ${flipped ? 'flipped' : ''}`}
         >
-          <div className="flip-face absolute inset-0 flex flex-col rounded-2xl border border-[var(--line)] bg-white p-8 shadow-sm">
+          <div className="flip-face absolute inset-0 flex flex-col rounded-2xl border border-[var(--line)] bg-[var(--card)] p-8 shadow-sm">
             <span className="mb-3 text-xs tracking-widest text-[var(--ink-faint)]">问题 · {card.from} · 点击翻面</span>
             <p className="font-serif-cjk text-xl leading-relaxed text-[var(--ink)]">
               <Rich text={card.front} />
             </p>
-            {isKnown && <span className="mt-auto text-xs text-[#4d7c0f]">✓ 已标记为认识</span>}
+            {isKnown && <span className="mt-auto text-xs text-[var(--green-ink)]">✓ 已标记为认识</span>}
           </div>
           <div className="flip-face flip-back absolute inset-0 flex flex-col rounded-2xl border border-[var(--amber-line)] bg-[var(--amber-bg)] p-8 shadow-sm">
-            <span className="mb-3 text-xs tracking-widest text-[#a16207]">答案 · 点击返回</span>
+            <span className="mb-3 text-xs tracking-widest text-[var(--amber-ink)]">答案 · 点击返回</span>
             <p className="leading-relaxed text-[var(--ink)]">
               <Rich text={card.back} />
             </p>
@@ -107,20 +107,20 @@ export function Flashcards({
         <button
           onClick={() => pos > 0 && go(pos - 1)}
           disabled={pos === 0}
-          className="rounded-lg border border-[var(--line)] bg-white px-4 py-2 text-sm text-[var(--ink-soft)] transition-colors hover:border-[var(--ink)] disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+          className="rounded-lg border border-[var(--line)] bg-[var(--card)] px-4 py-2 text-sm text-[var(--ink-soft)] transition-colors hover:border-[var(--ink)] disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
         >
           ← 上一张
         </button>
         <div className="flex gap-3">
           <button
             onClick={() => mark(false)}
-            className="rounded-lg border border-[var(--red-line)] bg-[var(--red-bg)] px-5 py-2 text-sm text-[#b4402a] transition-colors hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="rounded-lg border border-[var(--red-line)] bg-[var(--red-bg)] px-5 py-2 text-sm text-[var(--red-ink)] transition-colors hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
           >
             还不熟
           </button>
           <button
             onClick={() => mark(true)}
-            className="rounded-lg border border-[var(--green-line)] bg-[var(--green-bg)] px-5 py-2 text-sm text-[#4d7c0f] transition-colors hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="rounded-lg border border-[var(--green-line)] bg-[var(--green-bg)] px-5 py-2 text-sm text-[var(--green-ink)] transition-colors hover:brightness-95 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
           >
             认识了 ✓
           </button>
@@ -128,7 +128,7 @@ export function Flashcards({
         <button
           onClick={() => pos < order.length - 1 && go(pos + 1)}
           disabled={pos === order.length - 1}
-          className="rounded-lg border border-[var(--line)] bg-white px-4 py-2 text-sm text-[var(--ink-soft)] transition-colors hover:border-[var(--ink)] disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+          className="rounded-lg border border-[var(--line)] bg-[var(--card)] px-4 py-2 text-sm text-[var(--ink-soft)] transition-colors hover:border-[var(--ink)] disabled:opacity-40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
         >
           下一张 →
         </button>

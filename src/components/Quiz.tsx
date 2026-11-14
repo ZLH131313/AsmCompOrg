@@ -31,11 +31,11 @@ export function Quiz({ items, onFinish }: { items: QuizItem[]; onFinish?: (score
             </p>
             <div className="grid gap-2">
               {it.options.map((op, oi) => {
-                let cls = 'border-[var(--line)] bg-white hover:border-[var(--ink-faint)]'
+                let cls = 'border-[var(--line)] bg-[var(--card)] hover:border-[var(--ink-faint)]'
                 if (sel !== null) {
                   if (oi === it.answer) cls = 'border-[var(--green-line)] bg-[var(--green-bg)]'
                   else if (oi === sel) cls = 'border-[var(--red-line)] bg-[var(--red-bg)]'
-                  else cls = 'border-[var(--line)] bg-white opacity-60'
+                  else cls = 'border-[var(--line)] bg-[var(--card)] opacity-60'
                 }
                 return (
                   <button
@@ -54,7 +54,7 @@ export function Quiz({ items, onFinish }: { items: QuizItem[]; onFinish?: (score
             </div>
             {sel !== null && (
               <p className="mt-3 rounded-lg bg-[var(--paper-deep)] px-4 py-2.5 text-sm leading-relaxed text-[var(--ink-soft)]">
-                <span className={sel === it.answer ? 'text-[#4d7c0f]' : 'text-[#b4402a]'}>
+                <span className={sel === it.answer ? 'text-[var(--green-ink)]' : 'text-[var(--red-ink)]'}>
                   {sel === it.answer ? '答对了 · ' : '答错了 · '}
                 </span>
                 <Rich text={it.explain} />

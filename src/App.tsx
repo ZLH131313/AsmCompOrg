@@ -25,7 +25,26 @@ export default function App() {
   const [view, setView] = useState<View>(viewFromHash)
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [dark, setDark] = useState<boolean>(() => {
+    try {
+      const saved = localStorage.getItem('asmcomporg-theme')
+      if (saved) return saved === 'dark'
+      return window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false
+    } catch {
+      return false
+    }
+  })
   const { progress, toggleSection, markCard, recordQuiz } = useProgress()
+
+  // 应用主题到 <html> 并持久化
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark)
+    try {
+      localStorage.setItem('asmcomporg-theme', dark ? 'dark' : 'light')
+    } catch {
+      /* 存储失败不影响切换 */
+    }
+  }, [dark])
 
   // 浏览器前进/后退 → 视图
   useEffect(() => {
@@ -88,13 +107,33 @@ export default function App() {
           <button
             onClick={() => setSearchOpen(true)}
             aria-label="搜索概念"
-            className="ml-auto flex shrink-0 items-center gap-2 rounded-lg border border-[var(--line)] bg-white px-3 py-1.5 text-sm text-[var(--ink-faint)] transition-colors hover:border-[var(--ink-faint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+            className="ml-auto flex shrink-0 items-center gap-2 rounded-lg border border-[var(--line)] bg-[var(--card)] px-3 py-1.5 text-sm text-[var(--ink-faint)] transition-colors hover:border-[var(--ink-faint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
           >
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="11" cy="11" r="7" /><line x1="21" y1="21" x2="16.5" y2="16.5" />
             </svg>
             <span className="hidden sm:inline">搜索概念</span>
             <kbd className="hidden rounded border border-[var(--line)] px-1 text-[10px] sm:inline">Ctrl K</kbd>
+          </button>
+          <button
+            onClick={() => setDark((d) => !d)}
+            aria-label={dark ? '切换到日间模式' : '切换到夜间模式'}
+            title={dark ? '日间模式' : '夜间模式'}
+            className="flex shrink-0 items-center justify-center rounded-lg border border-[var(--line)] bg-[var(--card)] p-2 text-[var(--ink-soft)] transition-colors hover:border-[var(--ink-faint)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
+          >
+            {dark ? (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <circle cx="12" cy="12" r="4" />
+                <line x1="12" y1="2" x2="12" y2="5" /><line x1="12" y1="19" x2="12" y2="22" />
+                <line x1="2" y1="12" x2="5" y2="12" /><line x1="19" y1="12" x2="22" y2="12" />
+                <line x1="4.9" y1="4.9" x2="7" y2="7" /><line x1="17" y1="17" x2="19.1" y2="19.1" />
+                <line x1="4.9" y1="19.1" x2="7" y2="17" /><line x1="17" y1="7" x2="19.1" y2="4.9" />
+              </svg>
+            ) : (
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.8A9 9 0 1 1 11.2 3 7 7 0 0 0 21 12.8z" />
+              </svg>
+            )}
           </button>
         </div>
       </header>
@@ -187,7 +226,7 @@ function Nav({ view, doneSet, onGo }: {
                     onClick={() => onGo({ kind: 'chapter', id: ch.id }, s.id)}
                     className="flex w-full items-center gap-1.5 rounded px-2 py-0.5 text-left text-[0.83rem] text-[var(--ink-soft)] transition-colors hover:bg-[var(--paper-deep)]"
                   >
-                    <span className={doneSet.has(s.id) ? 'text-[#4d7c0f]' : 'text-[var(--ink-faint)]'}>
+                    <span className={doneSet.has(s.id) ? 'text-[var(--green-ink)]' : 'text-[var(--ink-faint)]'}>
                       {doneSet.has(s.id) ? '✓' : '○'}
                     </span>
                     {s.title}
@@ -235,7 +274,7 @@ function Home({ doneSet, quizBest, knownCards, onGo }: {
       </p>
 
       {/* 总进度 */}
-      <div className="mb-10 rounded-xl border border-[var(--line)] bg-white p-5">
+      <div className="mb-10 rounded-xl border border-[var(--line)] bg-[var(--card)] p-5">
         <div className="mb-2 flex items-baseline justify-between">
           <span className="text-sm text-[var(--ink-soft)]">学习总进度</span>
           <span className="font-serif-cjk text-2xl text-[var(--ink)]">{pct}%</span>
@@ -255,7 +294,7 @@ function Home({ doneSet, quizBest, knownCards, onGo }: {
           const best = quizBest[ch.id]
           const known = ch.cards.filter((_, i) => knownCards.includes(`${ch.id}:${i}`)).length
           return (
-            <div key={ch.id} className="group rounded-xl border border-[var(--line)] bg-white p-5 transition-shadow hover:shadow-md">
+            <div key={ch.id} className="group rounded-xl border border-[var(--line)] bg-[var(--card)] p-5 transition-shadow hover:shadow-md">
               <p className="mb-1 text-xs text-[var(--accent)]">{ch.no}</p>
               <h2 className="font-serif-cjk mb-1 text-xl text-[var(--ink)]">{ch.title}</h2>
               <p className="mb-4 text-sm leading-relaxed text-[var(--ink-faint)]">{ch.subtitle}</p>
@@ -320,7 +359,7 @@ function ChapterView({ id, doneSet, quizBest, onToggleSection, onQuizFinish, onG
                 onClick={() => onToggleSection(sec.id)}
                 aria-pressed={done}
                 className={`shrink-0 rounded-full border px-3 py-1 text-xs transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)] ${done
-                  ? 'border-[var(--green-line)] bg-[var(--green-bg)] text-[#4d7c0f]'
+                  ? 'border-[var(--green-line)] bg-[var(--green-bg)] text-[var(--green-ink)]'
                   : 'border-[var(--line)] text-[var(--ink-faint)] hover:border-[var(--ink-faint)]'}`}
               >
                 {done ? '✓ 已学完' : '标记学完'}

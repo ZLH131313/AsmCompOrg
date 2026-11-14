@@ -37,7 +37,7 @@ export function BlockView({ block }: { block: Block }) {
     case 'key':
       return (
         <aside className="my-6 rounded-lg border border-[var(--amber-line)] bg-[var(--amber-bg)] px-5 py-4">
-          <div className="mb-1 text-xs tracking-wide text-[#a16207]">一句话记住它</div>
+          <div className="mb-1 text-xs tracking-wide text-[var(--amber-ink)]">一句话记住它</div>
           <p className="font-serif-cjk text-[1.05rem] leading-relaxed text-[var(--ink)]">
             <Rich text={block.text} />
           </p>
@@ -46,7 +46,7 @@ export function BlockView({ block }: { block: Block }) {
     case 'pitfall':
       return (
         <aside className="my-6 rounded-lg border border-[var(--red-line)] bg-[var(--red-bg)] px-5 py-4">
-          <div className="mb-1 text-xs tracking-wide text-[#b4402a]">易错点</div>
+          <div className="mb-1 text-xs tracking-wide text-[var(--red-ink)]">易错点</div>
           <p className="leading-relaxed text-[var(--ink-soft)]"><Rich text={block.text} /></p>
         </aside>
       )
@@ -100,9 +100,9 @@ export function BlockView({ block }: { block: Block }) {
       )
     case 'code':
       return (
-        <figure className="my-6 overflow-hidden rounded-lg border border-[#3a342b] bg-[var(--code-bg)]">
+        <figure className="my-6 overflow-hidden rounded-lg border border-[var(--code-line)] bg-[var(--code-bg)]">
           {block.title && (
-            <figcaption className="border-b border-[#3a342b] px-4 py-2 text-xs text-[#b8ad97]">
+            <figcaption className="border-b border-[var(--code-line)] px-4 py-2 text-xs text-[var(--code-caption)]">
               {block.title}
             </figcaption>
           )}

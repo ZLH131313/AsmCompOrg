@@ -23,8 +23,9 @@ const registry: Record<string, () => React.ReactElement> = {
 export function Diagram({ id }: { id: string }) {
   const Cmp = registry[id]
   if (!Cmp) return null
+  // 图解始终是「暖纸图版」：深浅两模式下都保持纸色卡片，保证配色语义稳定
   return (
-    <figure className="my-6 rounded-xl border border-[var(--line)] bg-[var(--paper)] p-4 sm:p-6">
+    <figure className="my-6 rounded-xl border border-[#ddd5c4] bg-[#fbf9f4] p-4 sm:p-6">
       <Cmp />
     </figure>
   )
