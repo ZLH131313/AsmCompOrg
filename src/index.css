@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 暖纸书房主题 */
+    --paper: #fbf9f4;
+    --paper-deep: #f4efe4;
+    --ink: #1c1b18;
+    --ink-soft: #57534a;
+    --ink-faint: #8a8478;
+    --accent: #c2410c;        /* 赭红 */
+    --accent-deep: #9a3412;
+    --amber-bg: #fdf3e0;      /* 重点卡 */
+    --amber-line: #e8c877;
+    --red-bg: #fdeee6;        /* 易错点 */
+    --red-line: #e8b49b;
+    --green-bg: #eef3e6;      /* 答对/已掌握 */
+    --green-line: #b8cba0;
+    --line: #e5dfd1;
+    --code-bg: #26221c;
+    --code-ink: #f2ead9;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: -apple-system, "PingFang SC", "Hiragino Sans GB",
+      "Microsoft YaHei", "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.85;
+  }
+  .font-serif-cjk {
+    font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", Georgia, serif;
+  }
+  .font-mono-code {
+    font-family: "JetBrains Mono", "SF Mono", Consolas, "Courier New", monospace;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+}
+
+/* 行内 code */
+.inline-code {
+  font-family: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  font-size: 0.86em;
+  background: var(--paper-deep);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.05em 0.35em;
+  white-space: nowrap;
+}
+
+/* 翻卡动画 */
+.flip-scene {
+  perspective: 1400px;
+}
+.flip-card {
+  transform-style: preserve-3d;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.flip-card.flipped {
+  transform: rotateY(180deg);
+}
+.flip-face {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.flip-back {
+  transform: rotateY(180deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card {
+    transition: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
